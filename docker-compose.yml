@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  # Serviço do PostgreSQL
+  postgres:
+    image: postgres:latest
+    container_name: UserPostgres
+    restart: always
+    environment:
+      POSTGRES_DB: banco_estudo
+      POSTGRES_USER: user_estudo
+      POSTGRES_PASSWORD: senha_estudo
+    ports:
+      - "5100:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # Serviço do Spring Boot (userservice)
+  userservice:
+    build:  
+      context: /home/comercial-05/Área de Trabalho/Mercado/userService
+      dockerfile: Dockerfile
+    image: wiliian/user_service:v1
+    container_name: userService
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: jdbc:postgresql://postgres:5432/banco_estudo
+      DATABASE_USERNAME: user_estudo
+      DATABASE_PASSWORD: senha_estudo
+      SPRING_PROFILES_ACTIVE: prod
+
+volumes:
+  pgdata:

@@ -17,9 +17,6 @@ services:
 
   # Serviço do Spring Boot (userservice)
   userservice:
-    build:  
-      context: /home/comercial-05/Área de Trabalho/Mercado/userService
-      dockerfile: Dockerfile
     image: wiliian/user_service:v1
     container_name: userService
     restart: always

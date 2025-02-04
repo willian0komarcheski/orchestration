@@ -17,7 +17,7 @@ services:
 
   # Serviço do Spring Boot (userservice)
   userservice:
-    image: wiliian/user_service:v1
+    image: wiliian/user-service:v1
     container_name: userService
     restart: always
     ports:

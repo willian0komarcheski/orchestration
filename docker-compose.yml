@@ -7,9 +7,9 @@ services:
     container_name: UserPostgres
     restart: always
     environment:
-      POSTGRES_DB: banco_estudo
-      POSTGRES_USER: user_estudo
-      POSTGRES_PASSWORD: senha_estudo
+      POSTGRES_DB: MyDatabase
+      POSTGRES_USER: MyUsername
+      POSTGRES_PASSWORD: MyPassword
     ports:
       - "5100:5432"
     volumes:
@@ -25,9 +25,9 @@ services:
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: jdbc:postgresql://postgres:5432/banco_estudo
-      DATABASE_USERNAME: user_estudo
-      DATABASE_PASSWORD: senha_estudo
+      DATABASE_URL: jdbc:postgresql://postgres:5432/MyDatabase
+      DATABASE_USERNAME: MyUsername
+      DATABASE_PASSWORD: MyPassword
       SPRING_PROFILES_ACTIVE: prod
 
 volumes:

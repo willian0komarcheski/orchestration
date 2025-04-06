@@ -7,17 +7,24 @@ services:
     container_name: UserPostgres
     restart: always
     environment:
-      POSTGRES_DB: MyDatabase
-      POSTGRES_USER: MyUsername
-      POSTGRES_PASSWORD: MyPassword
+      POSTGRES_DB: myDatabase
+      POSTGRES_USER: myUsername
+      POSTGRES_PASSWORD: myPassword
+      POSTGRES_HOST_AUTH_METHOD: md5
     ports:
       - "5100:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
-
+      - ./initDatabase/user:/docker-entrypoint-initdb.d
+    networks:
+      - user-network
   # Serviço do Spring Boot (userservice)
   userservice:
-    image: wiliian/user-service:v1
+    image: wiliian/user-service:v2
+    build:
+      context: ../userService/
+      dockerfile: ../userService/Dockerfile
+    # volumes:
+    #   - .{PWD}/../userService/  # Sincroniza os arquivos locais com o container
     container_name: userService
     restart: always
     ports:
@@ -25,10 +32,17 @@ services:
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: jdbc:postgresql://postgres:5432/MyDatabase
-      DATABASE_USERNAME: MyUsername
-      DATABASE_PASSWORD: MyPassword
       SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_DRIVER: org.postgresql.Driver
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/myDatabase
+      SPRING_DATASOURCE_USERNAME: myUsername
+      SPRING_DATASOURCE_PASSWORD: myPassword
+    networks:
+      - user-network
 
 volumes:
   pgdata:
+
+networks :
+  user-network :
+    driver : bridge

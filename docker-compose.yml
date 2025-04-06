@@ -19,7 +19,7 @@ services:
       - user-network
   # Serviço do Spring Boot (userservice)
   userservice:
-    image: wiliian/user-service:v2
+    image: wiliian/user-service:v3
     build:
       context: ../userService/
       dockerfile: ../userService/Dockerfile
